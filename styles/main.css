@@ -1,0 +1,124 @@
+/* Perfect Line by Irina — base styles on top of the compiled styles/tailwind.css */
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #F7F3EC;
+  color: #2B2420;
+  font-family: 'Manrope', sans-serif;
+}
+
+.font-display {
+  font-family: 'Fraunces', serif;
+}
+
+/* Visible keyboard focus everywhere, incl. inside dark/accent sections */
+:focus-visible {
+  outline: 2px solid #B08D57;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+::selection {
+  background: #D9C6A5;
+  color: #2B2420;
+}
+
+/* Eyebrow / label style used above headlines */
+.eyebrow {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 700;
+  font-size: .72rem;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: #B08D57;
+}
+
+/* Hairline divider, the recurring "two worlds meet" motif */
+.hairline {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #C9BBA8 15%, #C9BBA8 85%, transparent);
+}
+
+.hairline-v {
+  width: 1px;
+  background: linear-gradient(180deg, transparent, #C9BBA8 15%, #C9BBA8 85%, transparent);
+}
+
+/* Placeholder image treatment: self-contained, no external hotlinking.
+   Clearly labeled so it is unmistakable which images need real photography. */
+.ph-image {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 140% at 15% 0%, rgba(216,180,160,.55), transparent 55%),
+    linear-gradient(155deg, #EFE6D8 0%, #E3D5C0 55%, #D9C6A5 100%);
+}
+
+.ph-image::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(45deg, rgba(43,36,32,.045) 0, rgba(43,36,32,.045) 1px, transparent 1px, transparent 14px);
+}
+
+.ph-image .ph-tag {
+  position: relative;
+  z-index: 1;
+  margin: 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 700;
+  font-size: .65rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: #5C5148;
+  background: rgba(247,243,236,.88);
+  padding: .4rem .7rem;
+  border-radius: 999px;
+}
+
+/* Reveal-on-scroll base state; GSAP flips these via .is-visible */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity .9s cubic-bezier(.65,0,.35,1), transform .9s cubic-bezier(.65,0,.35,1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Sticky booking CTA bar spacing helper */
+body {
+  padding-bottom: 0;
+}
+
+@media (max-width: 767px) {
+  body.has-mobile-cta {
+    padding-bottom: 4.5rem;
+  }
+}
