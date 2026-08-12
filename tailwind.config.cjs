@@ -1,6 +1,6 @@
 /** Build-time config for the static Tailwind CSS bundle (styles/tailwind.css). */
 module.exports = {
-  content: ['./*.html'],
+  content: ['./*.html', './perfect-line/*.html', './bridal-looks/*.html'],
   theme: {
     extend: {
       colors: {
