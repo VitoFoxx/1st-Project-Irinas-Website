@@ -49,6 +49,38 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  /* Testimonial slider */
+  document.querySelectorAll('[data-testimonial-slider]').forEach((slider) => {
+    const track = slider.querySelector('[data-testimonial-track]');
+    const slides = Array.from(slider.querySelectorAll('[data-testimonial-slide]'));
+    const prevBtn = slider.querySelector('[data-testimonial-prev]');
+    const nextBtn = slider.querySelector('[data-testimonial-next]');
+    const dots = Array.from(slider.querySelectorAll('[data-testimonial-dot]'));
+    if (!track || slides.length < 2) return;
+    let index = 0;
+    const update = () => {
+      track.style.transform = `translateX(-${index * 100}%)`;
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('bg-gold', i === index);
+        dot.classList.toggle('bg-line/60', i !== index);
+      });
+    };
+    prevBtn?.addEventListener('click', () => {
+      index = (index - 1 + slides.length) % slides.length;
+      update();
+    });
+    nextBtn?.addEventListener('click', () => {
+      index = (index + 1) % slides.length;
+      update();
+    });
+    dots.forEach((dot, i) => {
+      dot.addEventListener('click', () => {
+        index = i;
+        update();
+      });
+    });
+  });
+
   /* Scroll reveal + hero convergence, GSAP if available and motion is allowed */
   const revealEls = document.querySelectorAll('.reveal');
   if (reduceMotion || typeof gsap === 'undefined') {

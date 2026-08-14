@@ -157,11 +157,32 @@
       <span class="eyebrow">Kundenstimmen</span>
       <h2 class="font-display text-3xl md:text-4xl mt-3">Was meine Bräute sagen</h2>
     </div>
-    <div class="mt-10 max-w-2xl mx-auto reveal">
-      <div class="bg-sand/50 border border-line/60 px-8 py-10 md:px-12 md:py-14 text-center">
-        <img src="../assets/icons/quote.svg" alt="" class="w-8 h-6 mx-auto" style="color:#B08D57">
-        <p class="mt-6 font-display text-xl md:text-2xl italic leading-relaxed">„Irina hat mich an meinem Hochzeitstag ganz entspannt zuhause gestylt und ich hab mich so wohlgefühlt! Haare &amp; Make-up waren einfach wunderschön und haben bis spät in die Nacht super gehalten. Ich kann sie definitiv weiterempfehlen. Danke, für deine tolle Arbeit!“</p>
-        <p class="mt-6 text-sm tracking-wide text-espresso-soft">— Melina</p>
+    <div class="mt-10 max-w-2xl mx-auto reveal" data-testimonial-slider>
+      <div class="flex items-center gap-3 md:gap-6">
+        <button type="button" data-testimonial-prev aria-label="Vorherige Stimme" class="shrink-0 w-11 h-11 flex items-center justify-center border border-line/60 rounded-full hover:border-gold hover:text-gold transition-colors duration-300">
+          <img src="../assets/icons/arrow-right.svg" alt="" class="w-4 h-4 rotate-180">
+        </button>
+        <div class="flex-1 overflow-hidden">
+          <div data-testimonial-track class="flex transition-transform duration-500 ease-editorial">
+            <div class="w-full shrink-0 bg-sand/50 border border-line/60 px-8 py-10 md:px-12 md:py-14 text-center" data-testimonial-slide>
+              <img src="../assets/icons/quote.svg" alt="" class="w-8 h-6 mx-auto" style="color:#B08D57">
+              <p class="mt-6 font-display text-xl md:text-2xl italic leading-relaxed">„Irina hat mich an meinem Hochzeitstag ganz entspannt zuhause gestylt und ich hab mich so wohlgefühlt! Haare &amp; Make-up waren einfach wunderschön und haben bis spät in die Nacht super gehalten. Ich kann sie definitiv weiterempfehlen. Danke, für deine tolle Arbeit!“</p>
+              <p class="mt-6 text-sm tracking-wide text-espresso-soft">— Melina</p>
+            </div>
+            <div class="w-full shrink-0 bg-sand/50 border border-line/60 px-8 py-10 md:px-12 md:py-14 text-center" data-testimonial-slide>
+              <img src="../assets/icons/quote.svg" alt="" class="w-8 h-6 mx-auto" style="color:#B08D57">
+              <p class="mt-6 font-display text-xl md:text-2xl italic leading-relaxed">„Ich habe mich sehr wohl gefühlt und du hast es perfekt umgesetzt, genau so wie ich es mir immer gewünscht habe. Alles hat den ganzen Tag über gehalten und ich habe viele Komplimente bekommen. Danke dir dafür!“</p>
+              <p class="mt-6 text-sm tracking-wide text-espresso-soft">— Antonia</p>
+            </div>
+          </div>
+        </div>
+        <button type="button" data-testimonial-next aria-label="Nächste Stimme" class="shrink-0 w-11 h-11 flex items-center justify-center border border-line/60 rounded-full hover:border-gold hover:text-gold transition-colors duration-300">
+          <img src="../assets/icons/arrow-right.svg" alt="" class="w-4 h-4">
+        </button>
+      </div>
+      <div class="mt-6 flex items-center justify-center gap-2">
+        <button type="button" data-testimonial-dot data-testimonial-index="0" aria-label="Stimme 1" class="w-2 h-2 rounded-full bg-gold transition-colors duration-300"></button>
+        <button type="button" data-testimonial-dot data-testimonial-index="1" aria-label="Stimme 2" class="w-2 h-2 rounded-full bg-line/60 transition-colors duration-300"></button>
       </div>
     </div>
   </section>
