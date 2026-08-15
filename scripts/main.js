@@ -81,38 +81,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  /* Scroll reveal + hero convergence, GSAP if available and motion is allowed */
+  /* Scroll reveal — native IntersectionObserver, no external library.
+     Hero convergence animation lives entirely in CSS (see main.css). */
   const revealEls = document.querySelectorAll('.reveal');
-  if (reduceMotion || typeof gsap === 'undefined') {
+  if (reduceMotion || !('IntersectionObserver' in window)) {
     revealEls.forEach((el) => el.classList.add('is-visible'));
   } else {
-    gsap.registerPlugin(ScrollTrigger);
-
-    revealEls.forEach((el) => {
-      ScrollTrigger.create({
-        trigger: el,
-        start: 'top 85%',
-        once: true,
-        onEnter: () => el.classList.add('is-visible'),
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
       });
-    });
-
-    /* Homepage signature moment: the two worlds converge on load */
-    const heroLeft = document.querySelector('[data-hero-left]');
-    const heroRight = document.querySelector('[data-hero-right]');
-    const heroLine = document.querySelector('[data-hero-line]');
-    const heroTitle = document.querySelector('[data-hero-title]');
-    if (heroLeft && heroRight) {
-      gsap.set(heroLeft, { xPercent: -6, opacity: 0 });
-      gsap.set(heroRight, { xPercent: 6, opacity: 0 });
-      if (heroLine) gsap.set(heroLine, { scaleY: 0 });
-      if (heroTitle) gsap.set(heroTitle, { y: 18, opacity: 0 });
-
-      const tl = gsap.timeline({ defaults: { duration: 1.1, ease: 'power3.out' } });
-      tl.to(heroLeft, { xPercent: 0, opacity: 1 })
-        .to(heroRight, { xPercent: 0, opacity: 1 }, '<')
-        .to(heroLine, { scaleY: 1, duration: 0.9 }, '-=0.5')
-        .to(heroTitle, { y: 0, opacity: 1, duration: 0.8 }, '-=0.5');
-    }
+    }, { rootMargin: '0px 0px -15% 0px' });
+    revealEls.forEach((el) => revealObserver.observe(el));
   }
 });
