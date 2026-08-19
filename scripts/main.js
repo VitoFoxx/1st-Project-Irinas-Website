@@ -81,6 +81,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  /* Google-Bewertungen: horizontal scroll-snap track, nudged by arrow buttons */
+  document.querySelectorAll('[data-reviews-track]').forEach((track) => {
+    const prevBtn = track.parentElement.querySelector('[data-reviews-prev]');
+    const nextBtn = track.parentElement.querySelector('[data-reviews-next]');
+    const scrollByCard = (dir) => {
+      const card = track.querySelector('[data-review-card]');
+      const distance = card ? card.getBoundingClientRect().width + 20 : track.clientWidth * 0.8;
+      track.scrollBy({ left: dir * distance, behavior: reduceMotion ? 'auto' : 'smooth' });
+    };
+    prevBtn?.addEventListener('click', () => scrollByCard(-1));
+    nextBtn?.addEventListener('click', () => scrollByCard(1));
+  });
+
   /* Scroll reveal — native IntersectionObserver, no external library.
      Hero convergence animation lives entirely in CSS (see main.css). */
   const revealEls = document.querySelectorAll('.reveal');
