@@ -1,7 +1,85 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useScrollReveal } from './hooks/useScrollReveal'
+
+gsap.registerPlugin(ScrollTrigger)
 
 export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const heroRef = useRef(null)
+  const uspRef = useRef(null)
+  const servicesRef = useRef(null)
+  const beforeAfterRef = useRef(null)
+  const qualityRef = useRef(null)
+  const processRef = useRef(null)
+  const aboutRef = useRef(null)
+  const galleryRef = useRef(null)
+  const gewerbeRef = useRef(null)
+  const ctaRef = useRef(null)
+  const contactRef = useRef(null)
+
+  // Hero Animation
+  useEffect(() => {
+    if (!heroRef.current) return
+    gsap.fromTo(
+      heroRef.current.querySelectorAll('[data-hero]'),
+      { opacity: 0, y: 20 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        stagger: 0.2,
+        ease: 'power2.out'
+      }
+    )
+  }, [])
+
+  // Scroll Reveals
+  useScrollReveal(uspRef)
+  useScrollReveal(servicesRef)
+  useScrollReveal(beforeAfterRef)
+  useScrollReveal(qualityRef)
+  useScrollReveal(processRef)
+  useScrollReveal(aboutRef)
+  useScrollReveal(galleryRef)
+  useScrollReveal(gewerbeRef)
+  useScrollReveal(ctaRef)
+  useScrollReveal(contactRef)
+
+  // Button Hover Effect
+  const handleButtonHover = (e) => {
+    gsap.to(e.currentTarget, {
+      y: -2,
+      duration: 0.3,
+      ease: 'power2.out'
+    })
+  }
+
+  const handleButtonHoverOut = (e) => {
+    gsap.to(e.currentTarget, {
+      y: 0,
+      duration: 0.3,
+      ease: 'power2.out'
+    })
+  }
+
+  // Image Hover Effect
+  const handleImageHover = (e) => {
+    gsap.to(e.currentTarget, {
+      scale: 1.02,
+      duration: 0.4,
+      ease: 'power2.out'
+    })
+  }
+
+  const handleImageHoverOut = (e) => {
+    gsap.to(e.currentTarget, {
+      scale: 1,
+      duration: 0.4,
+      ease: 'power2.out'
+    })
+  }
 
   return (
     <div className="min-h-screen bg-off-white">
@@ -21,7 +99,11 @@ export default function App() {
           </div>
 
           {/* CTA Button */}
-          <button className="hidden md:block btn btn-primary">
+          <button
+            className="hidden md:block btn btn-primary"
+            onMouseEnter={handleButtonHover}
+            onMouseLeave={handleButtonHoverOut}
+          >
             Angebot anfragen
           </button>
 
@@ -44,37 +126,56 @@ export default function App() {
               <a href="#galerie" className="text-primary hover:font-bold">Galerie</a>
               <a href="#uber-uns" className="text-primary hover:font-bold">Über uns</a>
               <a href="#kontakt" className="text-primary hover:font-bold">Kontakt</a>
-              <button className="btn btn-primary w-full mt-2">Angebot anfragen</button>
+              <button
+                className="btn btn-primary w-full mt-2"
+                onMouseEnter={handleButtonHover}
+                onMouseLeave={handleButtonHoverOut}
+              >
+                Angebot anfragen
+              </button>
             </div>
           </div>
         )}
       </nav>
 
       {/* Hero Section */}
-      <section className="pt-32 pb-24 section-light">
+      <section ref={heroRef} className="pt-32 pb-24 section-light">
         <div className="container">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             {/* Hero Text */}
             <div>
-              <h1 className="mb-6 leading-tight">
+              <h1 data-hero className="mb-6 leading-tight">
                 Perfekte Fugen.<br />
                 <span className="text-primary">Perfekter Abschluss.</span>
               </h1>
-              <p className="text-lg text-charcoal mb-8 max-w-md">
+              <p data-hero className="text-lg text-charcoal mb-8 max-w-md">
                 Professionelle Silikonarbeiten für Bad, Dusche, Küche und Wohnbereiche – sauber, präzise und langlebig. Hannover & Umgebung.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <button className="btn btn-primary">
+              <div data-hero className="flex flex-col sm:flex-row gap-4">
+                <button
+                  className="btn btn-primary"
+                  onMouseEnter={handleButtonHover}
+                  onMouseLeave={handleButtonHoverOut}
+                >
                   Kostenloses Angebot
                 </button>
-                <button className="btn btn-secondary">
+                <button
+                  className="btn btn-secondary"
+                  onMouseEnter={handleButtonHover}
+                  onMouseLeave={handleButtonHoverOut}
+                >
                   Leistungen entdecken
                 </button>
               </div>
             </div>
 
             {/* Hero Image Placeholder */}
-            <div className="bg-primary-pale rounded-sm aspect-square flex items-center justify-center min-h-80">
+            <div
+              data-hero
+              className="bg-primary-pale rounded-sm aspect-square flex items-center justify-center min-h-80 overflow-hidden cursor-pointer"
+              onMouseEnter={handleImageHover}
+              onMouseLeave={handleImageHoverOut}
+            >
               <div className="text-center">
                 <p className="text-primary text-sm mb-2">[Hochwertiges Detailbild]</p>
                 <p className="text-charcoal text-xs">Makroaufnahme einer perfekt ausgeführten Silikonfuge</p>
@@ -85,15 +186,15 @@ export default function App() {
       </section>
 
       {/* USP Section */}
-      <section className="section section-pale-blue">
+      <section ref={uspRef} className="section section-pale-blue">
         <div className="container">
           <div className="max-w-3xl mx-auto">
-            <h2 className="text-center mb-16">
+            <h2 data-reveal className="text-center mb-16">
               Qualifikation. Material. Arbeitsweise.
             </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-              <div>
+              <div data-reveal>
                 <h3 className="text-primary mb-4 text-2xl">✓</h3>
                 <h4 className="font-semibold mb-3">Fachgerechte Ausführung</h4>
                 <p className="text-sm text-charcoal">
@@ -101,7 +202,7 @@ export default function App() {
                 </p>
               </div>
 
-              <div>
+              <div data-reveal>
                 <h3 className="text-primary mb-4 text-2xl">✓</h3>
                 <h4 className="font-semibold mb-3">Hochwertige Materialien</h4>
                 <p className="text-sm text-charcoal">
@@ -109,7 +210,7 @@ export default function App() {
                 </p>
               </div>
 
-              <div>
+              <div data-reveal>
                 <h3 className="text-primary mb-4 text-2xl">✓</h3>
                 <h4 className="font-semibold mb-3">Präzise Verarbeitung</h4>
                 <p className="text-sm text-charcoal">
@@ -122,14 +223,18 @@ export default function App() {
       </section>
 
       {/* Leistungen Section */}
-      <section id="leistungen" className="section section-light">
+      <section ref={servicesRef} id="leistungen" className="section section-light">
         <div className="container">
-          <h2 className="mb-16">Unsere Leistungen</h2>
+          <h2 data-reveal className="mb-16">Unsere Leistungen</h2>
 
           <div className="space-y-8">
             {/* Leistung 1 */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center pb-12 border-b border-black/10">
-              <div className="bg-primary-pale rounded-sm aspect-video flex items-center justify-center">
+            <div data-reveal className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center pb-12 border-b border-black/10">
+              <div
+                className="bg-primary-pale rounded-sm aspect-video flex items-center justify-center overflow-hidden cursor-pointer"
+                onMouseEnter={handleImageHover}
+                onMouseLeave={handleImageHoverOut}
+              >
                 <p className="text-center text-charcoal text-sm">[Badezimmer-Projekt]</p>
               </div>
               <div>
@@ -146,8 +251,12 @@ export default function App() {
             </div>
 
             {/* Leistung 2 */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center pb-12 border-b border-black/10">
-              <div className="bg-primary-pale rounded-sm aspect-video flex items-center justify-center md:order-last">
+            <div data-reveal className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center pb-12 border-b border-black/10">
+              <div
+                className="bg-primary-pale rounded-sm aspect-video flex items-center justify-center md:order-last overflow-hidden cursor-pointer"
+                onMouseEnter={handleImageHover}
+                onMouseLeave={handleImageHoverOut}
+              >
                 <p className="text-center text-charcoal text-sm">[Küchen-Projekt]</p>
               </div>
               <div className="md:order-first">
@@ -164,8 +273,12 @@ export default function App() {
             </div>
 
             {/* Leistung 3 */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-              <div className="bg-primary-pale rounded-sm aspect-video flex items-center justify-center">
+            <div data-reveal className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+              <div
+                className="bg-primary-pale rounded-sm aspect-video flex items-center justify-center overflow-hidden cursor-pointer"
+                onMouseEnter={handleImageHover}
+                onMouseLeave={handleImageHoverOut}
+              >
                 <p className="text-center text-charcoal text-sm">[Terrasse-Projekt]</p>
               </div>
               <div>
@@ -185,18 +298,28 @@ export default function App() {
       </section>
 
       {/* Vorher/Nachher Section */}
-      <section className="section section-cream">
+      <section ref={beforeAfterRef} className="section section-cream">
         <div className="container">
-          <h2 className="text-center mb-8">Der Unterschied liegt im Detail</h2>
-          <p className="text-center text-charcoal mb-16 max-w-2xl mx-auto">
+          <h2 data-reveal className="text-center mb-8">Der Unterschied liegt im Detail</h2>
+          <p data-reveal className="text-center text-charcoal mb-16 max-w-2xl mx-auto">
             Alte, verschmutzte Fugen werden professionell entfernt und durch neue, saubere Silikonfugen ersetzt.
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="bg-gray-200 rounded-sm aspect-square flex items-center justify-center">
+            <div
+              data-reveal
+              className="bg-gray-200 rounded-sm aspect-square flex items-center justify-center overflow-hidden cursor-pointer"
+              onMouseEnter={handleImageHover}
+              onMouseLeave={handleImageHoverOut}
+            >
               <p className="text-center text-charcoal text-sm">[VORHER]</p>
             </div>
-            <div className="bg-gray-200 rounded-sm aspect-square flex items-center justify-center">
+            <div
+              data-reveal
+              className="bg-gray-200 rounded-sm aspect-square flex items-center justify-center overflow-hidden cursor-pointer"
+              onMouseEnter={handleImageHover}
+              onMouseLeave={handleImageHoverOut}
+            >
               <p className="text-center text-charcoal text-sm">[NACHHER]</p>
             </div>
           </div>
@@ -204,21 +327,26 @@ export default function App() {
       </section>
 
       {/* Qualität Section */}
-      <section className="section section-light">
+      <section ref={qualityRef} className="section section-light">
         <div className="container">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div className="bg-primary-pale rounded-sm aspect-square flex items-center justify-center">
+            <div
+              data-reveal
+              className="bg-primary-pale rounded-sm aspect-square flex items-center justify-center overflow-hidden cursor-pointer"
+              onMouseEnter={handleImageHover}
+              onMouseLeave={handleImageHoverOut}
+            >
               <p className="text-center text-charcoal text-sm">[PCI Material]</p>
             </div>
             <div>
-              <h2 className="mb-6">Qualität beginnt beim Material</h2>
-              <p className="text-lg text-charcoal mb-6">
+              <h2 data-reveal className="mb-6">Qualität beginnt beim Material</h2>
+              <p data-reveal className="text-lg text-charcoal mb-6">
                 Ich arbeite ausschließlich mit hochwertigem Silikon von PCI. Ein Material, das sich seit Jahrzehnten bewährt hat und auf das Profis weltweit vertrauen.
               </p>
-              <p className="text-charcoal mb-8">
+              <p data-reveal className="text-charcoal mb-8">
                 PCI-Silikon bietet nicht nur optimale Verarbeitungseigenschaften, sondern auch Dauerhaftigkeit, Flexibilität und Witterungsbeständigkeit – Eigenschaften, die für hochwertige Silikonfugen unverzichtbar sind.
               </p>
-              <p className="text-sm text-charcoal italic">
+              <p data-reveal className="text-sm text-charcoal italic">
                 "Mit dem richtigen Material und der richtigen Verarbeitung entstehen Fugen, die Jahrzehnte halten."
               </p>
             </div>
@@ -227,12 +355,12 @@ export default function App() {
       </section>
 
       {/* Arbeitsprozess Section */}
-      <section className="section section-pale-blue">
+      <section ref={processRef} className="section section-pale-blue">
         <div className="container">
-          <h2 className="text-center mb-16">Von der alten Fuge zur sauberen Lösung</h2>
+          <h2 data-reveal className="text-center mb-16">Von der alten Fuge zur sauberen Lösung</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div className="text-center">
+            <div data-reveal className="text-center">
               <div className="text-4xl font-bold text-primary mb-4">01</div>
               <h4 className="font-semibold mb-3">Alte Fuge entfernen</h4>
               <p className="text-sm text-charcoal">
@@ -240,7 +368,7 @@ export default function App() {
               </p>
             </div>
 
-            <div className="text-center">
+            <div data-reveal className="text-center">
               <div className="text-4xl font-bold text-primary mb-4">02</div>
               <h4 className="font-semibold mb-3">Untergrund vorbereiten</h4>
               <p className="text-sm text-charcoal">
@@ -248,7 +376,7 @@ export default function App() {
               </p>
             </div>
 
-            <div className="text-center">
+            <div data-reveal className="text-center">
               <div className="text-4xl font-bold text-primary mb-4">03</div>
               <h4 className="font-semibold mb-3">Fuge präzise ausführen</h4>
               <p className="text-sm text-charcoal">
@@ -256,7 +384,7 @@ export default function App() {
               </p>
             </div>
 
-            <div className="text-center">
+            <div data-reveal className="text-center">
               <div className="text-4xl font-bold text-primary mb-4">04</div>
               <h4 className="font-semibold mb-3">Sauberes Ergebnis</h4>
               <p className="text-sm text-charcoal">
@@ -268,30 +396,35 @@ export default function App() {
       </section>
 
       {/* Über uns Section */}
-      <section id="uber-uns" className="section section-light">
+      <section ref={aboutRef} id="uber-uns" className="section section-light">
         <div className="container">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div className="bg-primary-pale rounded-sm aspect-square flex items-center justify-center">
+            <div
+              data-reveal
+              className="bg-primary-pale rounded-sm aspect-square flex items-center justify-center overflow-hidden cursor-pointer"
+              onMouseEnter={handleImageHover}
+              onMouseLeave={handleImageHoverOut}
+            >
               <p className="text-center text-charcoal text-sm">[Foto des Handwerkers]</p>
             </div>
             <div>
-              <h2 className="mb-6">Handwerk, das man sieht</h2>
-              <p className="text-lg text-charcoal mb-6">
+              <h2 data-reveal className="mb-6">Handwerk, das man sieht</h2>
+              <p data-reveal className="text-lg text-charcoal mb-6">
                 Hauptberuflich tätiger Fliesenleger mit langjähriger Erfahrung im Bereich Silikonfugen und Fugensanierung.
               </p>
-              <p className="text-charcoal mb-6">
+              <p data-reveal className="text-charcoal mb-6">
                 Für mich ist es nicht nur ein Handwerk – es ist eine Passion. Jede Fuge wird so ausgeführt, als wäre es das Projekt in meinem eigenen Zuhause.
               </p>
               <ul className="space-y-3 text-charcoal">
-                <li className="flex gap-3">
+                <li data-reveal className="flex gap-3">
                   <span className="text-primary font-bold">•</span>
                   <span>Persönlich und zuverlässig</span>
                 </li>
-                <li className="flex gap-3">
+                <li data-reveal className="flex gap-3">
                   <span className="text-primary font-bold">•</span>
                   <span>Höchste handwerkliche Standards</span>
                 </li>
-                <li className="flex gap-3">
+                <li data-reveal className="flex gap-3">
                   <span className="text-primary font-bold">•</span>
                   <span>Langfristige Kundenbeziehungen</span>
                 </li>
@@ -302,13 +435,19 @@ export default function App() {
       </section>
 
       {/* Galerie Section */}
-      <section id="galerie" className="section section-cream">
+      <section ref={galleryRef} id="galerie" className="section section-cream">
         <div className="container">
-          <h2 className="text-center mb-16">Galerie</h2>
+          <h2 data-reveal className="text-center mb-16">Galerie</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[1, 2, 3, 4, 5, 6].map((i) => (
-              <div key={i} className="bg-gray-300 rounded-sm aspect-square flex items-center justify-center">
+              <div
+                key={i}
+                data-reveal
+                className="bg-gray-300 rounded-sm aspect-square flex items-center justify-center overflow-hidden cursor-pointer"
+                onMouseEnter={handleImageHover}
+                onMouseLeave={handleImageHoverOut}
+              >
                 <p className="text-charcoal text-sm">[Projekt {i}]</p>
               </div>
             ))}
@@ -317,16 +456,16 @@ export default function App() {
       </section>
 
       {/* Gewerbekunden Section */}
-      <section className="section section-light">
+      <section ref={gewerbeRef} className="section section-light">
         <div className="container">
           <div className="max-w-3xl">
-            <h2 className="mb-6">Für Fliesenleger- & Bodenlegerbetriebe</h2>
-            <p className="text-lg text-charcoal mb-8">
+            <h2 data-reveal className="mb-6">Für Fliesenleger- & Bodenlegerbetriebe</h2>
+            <p data-reveal className="text-lg text-charcoal mb-8">
               Silikonarbeiten können professionell ausgelagert werden. Ich übernehme alle Arbeiten nach Ihren Vorgaben und Qualitätsstandards.
             </p>
 
             <div className="space-y-4 mb-8">
-              <div className="flex gap-4">
+              <div data-reveal className="flex gap-4">
                 <span className="text-primary font-bold text-lg">✓</span>
                 <div>
                   <h4 className="font-semibold mb-1">Fachgerechte Ausführung</h4>
@@ -334,7 +473,7 @@ export default function App() {
                 </div>
               </div>
 
-              <div className="flex gap-4">
+              <div data-reveal className="flex gap-4">
                 <span className="text-primary font-bold text-lg">✓</span>
                 <div>
                   <h4 className="font-semibold mb-1">Gleichbleibende Qualität</h4>
@@ -342,7 +481,7 @@ export default function App() {
                 </div>
               </div>
 
-              <div className="flex gap-4">
+              <div data-reveal className="flex gap-4">
                 <span className="text-primary font-bold text-lg">✓</span>
                 <div>
                   <h4 className="font-semibold mb-1">Flexible Termine</h4>
@@ -351,7 +490,12 @@ export default function App() {
               </div>
             </div>
 
-            <button className="btn btn-primary">
+            <button
+              data-reveal
+              className="btn btn-primary"
+              onMouseEnter={handleButtonHover}
+              onMouseLeave={handleButtonHoverOut}
+            >
               Zusammenarbeit anfragen
             </button>
           </div>
@@ -359,44 +503,49 @@ export default function App() {
       </section>
 
       {/* CTA Section */}
-      <section className="section section-pale-blue">
+      <section ref={ctaRef} className="section section-pale-blue">
         <div className="container text-center">
-          <h2 className="mb-6">Eine saubere Fuge<br />macht den Unterschied</h2>
-          <p className="text-lg text-charcoal mb-12 max-w-2xl mx-auto">
+          <h2 data-reveal className="mb-6">Eine saubere Fuge<br />macht den Unterschied</h2>
+          <p data-reveal className="text-lg text-charcoal mb-12 max-w-2xl mx-auto">
             Sie benötigen neue Silikonfugen oder eine professionelle Fugensanierung?
           </p>
-          <button className="btn btn-primary text-lg py-4 px-12">
+          <button
+            data-reveal
+            className="btn btn-primary text-lg py-4 px-12"
+            onMouseEnter={handleButtonHover}
+            onMouseLeave={handleButtonHoverOut}
+          >
             Kostenloses Angebot anfragen
           </button>
         </div>
       </section>
 
       {/* Kontakt Section */}
-      <section id="kontakt" className="section section-light">
+      <section ref={contactRef} id="kontakt" className="section section-light">
         <div className="container">
-          <h2 className="text-center mb-16">Kontakt & Anfrage</h2>
+          <h2 data-reveal className="text-center mb-16">Kontakt & Anfrage</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
             {/* Kontaktinfo */}
             <div>
-              <h3 className="text-primary mb-8">Kontaktieren Sie mich direkt</h3>
+              <h3 data-reveal className="text-primary mb-8">Kontaktieren Sie mich direkt</h3>
 
               <div className="space-y-6">
-                <div>
+                <div data-reveal>
                   <h4 className="font-semibold mb-2">Telefon</h4>
-                  <a href="tel:+491517261842" className="text-lg text-primary font-semibold">
+                  <a href="tel:+491517261842" className="text-lg text-primary font-semibold hover:text-primary-light transition">
                     +49 (0)151 72618429
                   </a>
                 </div>
 
-                <div>
+                <div data-reveal>
                   <h4 className="font-semibold mb-2">E-Mail</h4>
-                  <a href="mailto:service-dortmann@gmx.de" className="text-primary">
+                  <a href="mailto:service-dortmann@gmx.de" className="text-primary hover:text-primary-light transition">
                     service-dortmann@gmx.de
                   </a>
                 </div>
 
-                <div>
+                <div data-reveal>
                   <h4 className="font-semibold mb-2">Arbeitsgebiet</h4>
                   <p className="text-charcoal">
                     Hannover & Umgebung<br />
@@ -404,7 +553,7 @@ export default function App() {
                   </p>
                 </div>
 
-                <p className="text-sm text-charcoal italic mt-8">
+                <p data-reveal className="text-sm text-charcoal italic mt-8">
                   Kostenlos & unverbindlich
                 </p>
               </div>
@@ -412,24 +561,29 @@ export default function App() {
 
             {/* Kontaktformular */}
             <div>
-              <h3 className="text-primary mb-8">Anfrage senden</h3>
-              <form className="space-y-4">
+              <h3 data-reveal className="text-primary mb-8">Anfrage senden</h3>
+              <form data-reveal className="space-y-4">
                 <div>
                   <label className="block text-sm font-semibold mb-2">Name</label>
-                  <input type="text" className="w-full px-4 py-3 border border-black/10 rounded-sm focus:outline-none focus:border-primary" />
+                  <input type="text" className="w-full px-4 py-3 border border-black/10 rounded-sm focus:outline-none focus:border-primary transition" />
                 </div>
 
                 <div>
                   <label className="block text-sm font-semibold mb-2">Telefon oder E-Mail</label>
-                  <input type="text" className="w-full px-4 py-3 border border-black/10 rounded-sm focus:outline-none focus:border-primary" />
+                  <input type="text" className="w-full px-4 py-3 border border-black/10 rounded-sm focus:outline-none focus:border-primary transition" />
                 </div>
 
                 <div>
                   <label className="block text-sm font-semibold mb-2">Nachricht</label>
-                  <textarea rows="5" className="w-full px-4 py-3 border border-black/10 rounded-sm focus:outline-none focus:border-primary resize-none"></textarea>
+                  <textarea rows="5" className="w-full px-4 py-3 border border-black/10 rounded-sm focus:outline-none focus:border-primary transition resize-none"></textarea>
                 </div>
 
-                <button type="submit" className="btn btn-primary w-full">
+                <button
+                  type="submit"
+                  className="btn btn-primary w-full"
+                  onMouseEnter={handleButtonHover}
+                  onMouseLeave={handleButtonHoverOut}
+                >
                   Anfrage senden
                 </button>
               </form>
@@ -450,28 +604,28 @@ export default function App() {
             <div>
               <h4 className="font-semibold mb-4">Navigation</h4>
               <ul className="space-y-2 text-sm">
-                <li><a href="#leistungen" className="hover:text-primary">Leistungen</a></li>
-                <li><a href="#galerie" className="hover:text-primary">Galerie</a></li>
-                <li><a href="#uber-uns" className="hover:text-primary">Über uns</a></li>
-                <li><a href="#kontakt" className="hover:text-primary">Kontakt</a></li>
+                <li><a href="#leistungen" className="hover:text-primary-light transition">Leistungen</a></li>
+                <li><a href="#galerie" className="hover:text-primary-light transition">Galerie</a></li>
+                <li><a href="#uber-uns" className="hover:text-primary-light transition">Über uns</a></li>
+                <li><a href="#kontakt" className="hover:text-primary-light transition">Kontakt</a></li>
               </ul>
             </div>
 
             <div>
               <h4 className="font-semibold mb-4">Kontakt</h4>
               <p className="text-sm mb-1">
-                <a href="tel:+491517261842" className="hover:text-primary">+49 (0)151 72618429</a>
+                <a href="tel:+491517261842" className="hover:text-primary-light transition">+49 (0)151 72618429</a>
               </p>
               <p className="text-sm">
-                <a href="mailto:service-dortmann@gmx.de" className="hover:text-primary">service-dortmann@gmx.de</a>
+                <a href="mailto:service-dortmann@gmx.de" className="hover:text-primary-light transition">service-dortmann@gmx.de</a>
               </p>
             </div>
 
             <div>
               <h4 className="font-semibold mb-4">Rechtliches</h4>
               <ul className="space-y-2 text-sm">
-                <li><a href="#impressum" className="hover:text-primary">Impressum</a></li>
-                <li><a href="#datenschutz" className="hover:text-primary">Datenschutz</a></li>
+                <li><a href="#impressum" className="hover:text-primary-light transition">Impressum</a></li>
+                <li><a href="#datenschutz" className="hover:text-primary-light transition">Datenschutz</a></li>
               </ul>
             </div>
           </div>
