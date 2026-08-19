@@ -12,6 +12,14 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Support for devices with notch (iPhone X+, etc.) */
+@supports (padding: max(0px)) {
+  body {
+    padding-left: max(0px, env(safe-area-inset-left));
+    padding-right: max(0px, env(safe-area-inset-right));
+  }
+}
+
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   background-color: #FAFAF8;
@@ -48,6 +56,12 @@ p {
   color: #2A2A2A;
 }
 
+@media (max-width: 640px) {
+  p {
+    font-size: 15px;
+  }
+}
+
 /* Buttons */
 .btn {
   display: inline-flex;
@@ -63,6 +77,16 @@ p {
   cursor: pointer;
   transition: all 0.3s ease-out;
   text-decoration: none;
+  min-height: 48px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (max-width: 640px) {
+  .btn {
+    padding: 14px 32px;
+    font-size: 13px;
+    min-height: 48px;
+  }
 }
 
 .btn-primary {
@@ -96,7 +120,13 @@ a:hover {
 
 /* Sections */
 .section {
-  padding: clamp(64px, 9vw, 120px) 0;
+  padding: clamp(48px, 9vw, 120px) 0;
+}
+
+@media (max-width: 640px) {
+  .section {
+    padding: 40px 0;
+  }
 }
 
 .section-light {
@@ -118,6 +148,12 @@ a:hover {
   padding: 0 24px;
 }
 
+@media (max-width: 640px) {
+  .container {
+    padding: 0 16px;
+  }
+}
+
 /* Utilities */
 .text-center {
   text-align: center;
@@ -135,7 +171,33 @@ a:hover {
   margin-top: 64px;
 }
 
+/* Form Elements */
+input, textarea {
+  font-size: 16px;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+input:focus-visible, textarea:focus-visible {
+  outline: 2px solid #2D5A8C;
+  outline-offset: 2px;
+}
+
+/* Mobile Input Optimization */
+@media (max-width: 640px) {
+  input, textarea {
+    font-size: 16px;
+  }
+}
+
 ::selection {
   background-color: #2D5A8C;
   color: white;
+}
+
+/* Prevent zoom on input focus (iOS) */
+@media (max-width: 768px) {
+  input, textarea, select {
+    font-size: 16px !important;
+  }
 }

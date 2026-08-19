@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useScrollReveal } from './hooks/useScrollReveal'
+import { MobileStickyCTA } from './components/MobileStickyCTA'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -637,6 +638,12 @@ export default function App() {
           </div>
         </div>
       </footer>
+
+      {/* Mobile Sticky CTA */}
+      <MobileStickyCTA />
+
+      {/* Mobile Bottom Padding */}
+      <div className="md:hidden h-20" />
     </div>
   )
 }
