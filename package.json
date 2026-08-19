@@ -1,0 +1,24 @@
+{
+  "name": "1st-project-irinas-website",
+  "version": "1.0.0",
+  "description": "Vollständiges Redesign der Website für „Perfect Line by Irina\" (Permanent Make-up, Lashlift, Browlift, Braut-Styling — Sarstedt bei Hildesheim), auf Basis der Inhalte der bisherigen Website unter neuem, eigenständigem Design.",
+  "main": "index.js",
+  "scripts": {
+    "build:css": "tailwindcss -i styles/tailwind.src.css -o styles/tailwind.css --minify"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VitoFoxx/1st-Project-Irinas-Website.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/VitoFoxx/1st-Project-Irinas-Website/issues"
+  },
+  "homepage": "https://github.com/VitoFoxx/1st-Project-Irinas-Website#readme",
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.5.20",
+    "tailwindcss": "^3.4.19"
+  }
+}
