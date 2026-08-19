@@ -3,11 +3,55 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useScrollReveal } from './hooks/useScrollReveal'
 import { MobileStickyCTA } from './components/MobileStickyCTA'
+import { SEOSchema } from './components/SEOSchema'
+
+// SEO Meta Tags
+function useSEOHead() {
+  useEffect(() => {
+    document.title = 'Silikon-Service Dortmann – Premium Silikonfugen Hannover'
+
+    const metaTags = [
+      { name: 'description', content: 'Professionelle Silikonfugen und Fugensanierung in Hannover & Umgebung. Fachgerechte Ausführung, hochwertige PCI-Materialien, langlebige Lösungen.' },
+      { name: 'keywords', content: 'Silikonfugen Hannover, Fugensanierung, Silikon Service, Silikonfugen erneuern, Bad Dusche, Fliesenleger' },
+      { name: 'theme-color', content: '#2D5A8C' },
+      { property: 'og:title', content: 'Silikon-Service Dortmann – Premium Silikonfugen Hannover' },
+      { property: 'og:description', content: 'Professionelle Silikonfugen und Fugensanierung in Hannover & Umgebung.' },
+      { property: 'og:type', content: 'business.business' },
+      { property: 'og:url', content: 'https://silikon-service-dortmann.de' },
+      { name: 'twitter:card', content: 'summary_large_image' },
+      { name: 'twitter:title', content: 'Silikon-Service Dortmann' },
+      { name: 'twitter:description', content: 'Professionelle Silikonfugen in Hannover' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
+      { name: 'charset', content: 'utf-8' },
+      { name: 'robots', content: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' },
+      { name: 'googlebot', content: 'index, follow' }
+    ]
+
+    metaTags.forEach(tag => {
+      let el = document.querySelector(`meta[${tag.property ? 'property' : 'name'}="${tag.property || tag.name}"]`)
+      if (!el) {
+        el = document.createElement('meta')
+        el.setAttribute(tag.property ? 'property' : 'name', tag.property || tag.name)
+        document.head.appendChild(el)
+      }
+      el.setAttribute('content', tag.content)
+    })
+
+    // Canonical
+    let canonical = document.querySelector('link[rel="canonical"]')
+    if (!canonical) {
+      canonical = document.createElement('link')
+      canonical.rel = 'canonical'
+      document.head.appendChild(canonical)
+    }
+    canonical.href = 'https://silikon-service-dortmann.de'
+  }, [])
 
 gsap.registerPlugin(ScrollTrigger)
 
 export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  useSEOHead()
   const heroRef = useRef(null)
   const uspRef = useRef(null)
   const servicesRef = useRef(null)
@@ -84,6 +128,9 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-off-white">
+      {/* SEO Schema */}
+      <SEOSchema />
+
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-off-white/95 backdrop-blur-sm border-b border-black/5">
         <div className="container flex items-center justify-between h-20">
