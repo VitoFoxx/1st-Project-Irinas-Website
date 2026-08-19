@@ -156,3 +156,12 @@ body {
   from { opacity: 0; transform: translateY(18px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+
+/* On mobile the title card renders first (order-first), above the hero
+   panels — so it should not wait for the desktop hero choreography.
+   Overrides the base [data-hero-title] delay/duration for small screens. */
+@media (max-width: 767px) and (prefers-reduced-motion: no-preference) {
+  [data-hero-title] {
+    animation: hero-title-in 0.6s cubic-bezier(.215, .61, .355, 1) 0.1s both;
+  }
+}
