@@ -81,17 +81,48 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  /* Google-Bewertungen: horizontal scroll-snap track, nudged by arrow buttons */
+  /* Google-Bewertungen: native touch swipe on mobile (just overflow-x-auto).
+     On mouse devices, scroll speed follows cursor position within the
+     track — left half nudges left, right half nudges right, with a dead
+     zone in the middle and faster scrolling toward the edges. */
   document.querySelectorAll('[data-reviews-track]').forEach((track) => {
-    const prevBtn = track.parentElement.querySelector('[data-reviews-prev]');
-    const nextBtn = track.parentElement.querySelector('[data-reviews-next]');
-    const scrollByCard = (dir) => {
-      const card = track.querySelector('[data-review-card]');
-      const distance = card ? card.getBoundingClientRect().width + 20 : track.clientWidth * 0.8;
-      track.scrollBy({ left: dir * distance, behavior: reduceMotion ? 'auto' : 'smooth' });
+    const canHover = window.matchMedia('(pointer: fine)').matches;
+    if (!canHover || reduceMotion) return;
+
+    const maxSpeed = 9; // px per animation frame at the very edge
+    const deadZone = 0.15; // fraction of half-width that stays still
+    let targetSpeed = 0;
+    let rafId = null;
+
+    const step = () => {
+      if (targetSpeed !== 0) track.scrollLeft += targetSpeed;
+      rafId = requestAnimationFrame(step);
     };
-    prevBtn?.addEventListener('click', () => scrollByCard(-1));
-    nextBtn?.addEventListener('click', () => scrollByCard(1));
+
+    track.addEventListener('mouseenter', () => {
+      track.style.scrollSnapType = 'none'; // let continuous scrollLeft writes through
+      if (rafId === null) rafId = requestAnimationFrame(step);
+    });
+    track.addEventListener('mousemove', (e) => {
+      const rect = track.getBoundingClientRect();
+      const center = rect.width / 2;
+      const offset = (e.clientX - rect.left - center) / center; // -1..1
+      const magnitude = Math.abs(offset);
+      if (magnitude < deadZone) {
+        targetSpeed = 0;
+      } else {
+        const normalized = (magnitude - deadZone) / (1 - deadZone);
+        targetSpeed = Math.sign(offset) * normalized * maxSpeed;
+      }
+    });
+    track.addEventListener('mouseleave', () => {
+      targetSpeed = 0;
+      track.style.scrollSnapType = ''; // restore CSS snap so the row settles on a card
+      if (rafId !== null) {
+        cancelAnimationFrame(rafId);
+        rafId = null;
+      }
+    });
   });
 
   /* Scroll reveal — native IntersectionObserver, no external library.
