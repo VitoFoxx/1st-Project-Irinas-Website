@@ -3,6 +3,25 @@
 document.addEventListener('DOMContentLoaded', () => {
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  /* Google Maps: two-click loading. No connection to Google is made until
+     the visitor explicitly clicks "Karte laden" — avoids transmitting the
+     visitor's IP to Google on page load without consent. */
+  document.querySelectorAll('[data-maps-embed]').forEach((wrapper) => {
+    const loadBtn = wrapper.querySelector('[data-maps-load]');
+    loadBtn?.addEventListener('click', () => {
+      const iframe = document.createElement('iframe');
+      iframe.src = wrapper.dataset.mapsSrc;
+      iframe.className = 'w-full h-full';
+      iframe.style.border = '0';
+      iframe.loading = 'lazy';
+      iframe.referrerPolicy = 'no-referrer-when-downgrade';
+      iframe.title = wrapper.dataset.mapsTitle;
+      iframe.allowFullscreen = true;
+      wrapper.querySelector('[data-maps-placeholder]')?.remove();
+      wrapper.appendChild(iframe);
+    });
+  });
+
   /* Mobile navigation toggle */
   const navToggle = document.querySelector('[data-nav-toggle]');
   const navPanel = document.querySelector('[data-nav-panel]');
